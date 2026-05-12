@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Melbourne Rubbish Removal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Animation Libraries -->
+    <script src="https://unpkg.com/split-type"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+<body>
+    <!-- ============================================== -->
+    <!-- PRELOADER -->
+    <!-- ============================================== -->
+    <div class="preloader" id="preloader">
+        <div class="loader-crane">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Crane Base -->
+                <rect x="20" y="85" width="20" height="5" fill="var(--orange-primary)"/>
+                <rect x="25" y="80" width="10" height="5" fill="var(--orange-primary)"/>
+                
+                <!-- Tower -->
+                <rect x="27" y="20" width="6" height="60" fill="var(--orange-primary)"/>
+                
+                <!-- Tower Crossings -->
+                <path d="M27 30 L33 35 M27 40 L33 45 M27 50 L33 55 M27 60 L33 65 M27 70 L33 75" stroke="#060706" stroke-width="1.5"/>
+                <path d="M33 25 L27 30 M33 35 L27 40 M33 45 L27 50 M33 55 L27 60 M33 65 L27 70 M33 75 L27 80" stroke="#060706" stroke-width="1.5"/>
+                
+                <!-- Jib -->
+                <path d="M15 20 L85 20" stroke="var(--orange-primary)" stroke-width="6" stroke-linecap="round"/>
+                
+                <!-- Apex -->
+                <path d="M30 10 L15 20 M30 10 L80 20" stroke="var(--text-muted)" stroke-width="1.5"/>
+                <rect x="28" y="10" width="4" height="10" fill="var(--orange-primary)"/>
+
+                <!-- Counterweight -->
+                <rect x="10" y="23" width="12" height="15" fill="var(--text-main)" rx="2"/>
+                
+                <!-- Cable -->
+                <line x1="75" y1="20" x2="75" y2="55" stroke="var(--text-muted)" stroke-width="2" class="crane-line"/>
+                
+                <!-- Hook & Load -->
+                <g class="crane-hook-group">
+                    <path d="M75 55 V60 C75 62 77 62 77 60" stroke="var(--text-main)" stroke-width="1.5" fill="none"/>
+                    <rect x="65" y="60" width="20" height="15" rx="2" fill="var(--orange-primary)"/>
+                    <rect x="67" y="62" width="16" height="11" rx="1" fill="#060706" opacity="0.3"/>
+                </g>
+            </svg>
+        </div>
+        <div class="loader-progress">
+            <div class="loader-percentage" id="loader-percentage">0%</div>
+            <div class="loader-bar-bg">
+                <div class="loader-bar-fill" id="loader-bar-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- SECTION 1: HERO -->
+    <!-- ============================================== -->
+    <div class="hero">
+        <div class="hero-bg"></div>
+        <div class="ambient-glow"></div>
+        <div class="particles" id="particles-container"></div>
+        <div class="hero-overlay"></div>
+
+        <nav class="navbar">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L22 22H2L12 2Z" stroke="#fff" stroke-width="2"/>
+                        <path d="M12 10L17 20H7L12 10Z" fill="#ff7f3f"/>
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    ALL MELBOURNE<br>
+                    RUBBISH REMOVAL
+                </div>
+            </div>
+            
+            <div class="nav-links">
+                <a href="#">SERVICES</a>
+                <a href="#">ABOUT US</a>
+                <a href="#">OUR PROCESS</a>
+                <a href="#">PROJECTS</a>
+                <a href="#">SUSTAINABILITY</a>
+                <a href="#">CONTACT</a>
+            </div>
+            
+            <div class="nav-cta">
+                <div class="phone-icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22 16.92V19.92C22.0032 20.1986 21.9441 20.4743 21.8261 20.7294C21.7082 20.9846 21.5338 21.2137 21.3141 21.4024C21.0944 21.5911 20.8341 21.7354 20.5485 21.8269C20.263 21.9185 19.958 21.9554 19.65 21.93C16.634 21.6033 13.7547 20.597 11.23 18.99C8.88936 17.5255 6.91148 15.5476 5.44701 13.207C3.83437 10.6729 2.82875 7.78168 2.51001 4.75001C2.48464 4.44297 2.52158 4.13897 2.61286 3.85437C2.70414 3.56976 2.84803 3.3102 3.03598 3.09117C3.22393 2.87213 3.45187 2.69835 3.7058 2.58066C3.95972 2.46297 4.234 2.40388 4.51001 2.40001H7.51001C7.99443 2.39535 8.46166 2.57147 8.82583 2.89578C9.18999 3.2201 9.42686 3.6705 9.49001 4.15001C9.53303 4.49021 9.61053 4.8254 9.72001 5.15001C9.82909 5.48512 9.8856 5.83441 9.88001 6.19001C9.88031 6.55034 9.74233 6.89745 9.49001 7.16001L8.22001 8.43001C9.64353 10.932 11.738 13.0265 14.24 14.45L15.51 13.18C15.7726 12.9277 16.1197 12.7897 16.48 12.79C16.8356 12.7844 17.1849 12.8409 17.52 12.95C17.8446 13.0595 18.1798 13.137 18.52 13.18C19.0041 13.2435 19.4582 13.4839 19.7842 13.8532C20.1102 14.2225 20.285 14.6953 20.28 15.18V16.92H22Z" fill="#ff7f3f"/>
+                    </svg>
+                </div>
+                <span>03 9123 4567</span>
+            </div>
+        </nav>
+
+        <div class="side-numbers">
+            <div class="num-top">01</div>
+            <div class="num-line"></div>
+            <div class="num-bottom">05</div>
+        </div>
+
+        <main class="hero-content">
+            <div class="left-col">
+                <div class="top-label">
+                    <div class="label-icon">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="10" stroke="#ff7f3f" stroke-width="2"/>
+                            <circle cx="12" cy="12" r="4" fill="#ff7f3f"/>
+                        </svg>
+                    </div>
+                    <span>01 / PREMIUM WASTE SOLUTIONS</span>
+                </div>
+
+                <h1 class="main-headline">
+                    <div class="line">MELBOURNE'S</div>
+                    <div class="line"><span class="gradient-eco">ECO-</span><span class="gradient-luxury">LUXURY</span></div>
+                    <div class="line">RUBBISH</div>
+                    <div class="line">REMOVAL</div>
+                </h1>
+
+                <p class="description">
+                    Sustainable. Responsible. Reliable. We transform rubbish into a cleaner, greener Melbourne.
+                </p>
+
+                <div class="hero-buttons">
+                    <button class="btn-primary">
+                        <span>BOOK PICKUP</span>
+                        <div class="btn-arrow">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5 12H19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 5L19 12L12 19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </button>
+                    <button class="btn-secondary">
+                        <div class="btn-play">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5 3L19 12L5 21V3Z" fill="currentColor"/>
+                            </svg>
+                        </div>
+                        <span>WATCH OUR PROCESS</span>
+                    </button>
+                </div>
+
+                <div class="bottom-metrics">
+                    <div class="metric client-metric">
+                        <div class="avatars">
+                            <div class="avatar" style="background-image: url('https://i.pravatar.cc/100?img=68'); z-index: 3;"></div>
+                            <div class="avatar" style="background-image: url('https://i.pravatar.cc/100?img=47'); z-index: 2;"></div>
+                            <div class="avatar" style="background-image: url('https://i.pravatar.cc/100?img=33'); z-index: 1;"></div>
+                        </div>
+                        <div class="metric-text">
+                            <span class="metric-val">500+</span>
+                            <span class="metric-label">SATISFIED CLIENTS</span>
+                        </div>
+                    </div>
+                    <div class="metric recycled-metric">
+                        <div class="eco-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="white" stroke-width="1.5" stroke-miterlimit="10"/>
+                                <path d="M12 21C12 21 15 17.5 15 12C15 6.5 12 3 12 3" stroke="white" stroke-width="1.5" stroke-miterlimit="10"/>
+                                <path d="M12 21C12 21 9 17.5 9 12C9 6.5 12 3 12 3" stroke="white" stroke-width="1.5" stroke-miterlimit="10"/>
+                                <path d="M3 12H21" stroke="white" stroke-width="1.5" stroke-miterlimit="10"/>
+                            </svg>
+                        </div>
+                        <div class="metric-text">
+                            <span class="metric-val">98%</span>
+                            <span class="metric-label">RECYCLED WASTE</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-col">
+                <div class="image-showcase">
+                    <img src="SEC1A1.jpeg" alt="Main Showcase" class="main-image">
+                    <img src="SEC1A2.jpeg" alt="Floating Showcase" class="floating-image">
+                    
+                    <div class="floating-cards">
+                        <div class="glass-card card-1">
+                            <div class="card-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z" stroke="#ff7f3f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M7.75 11.9999L10.58 14.8299L16.25 9.16992" stroke="#ff7f3f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-val">500+</div>
+                                <div class="card-label">PROJECTS<br>COMPLETED</div>
+                            </div>
+                        </div>
+                        
+                        <div class="glass-card card-2">
+                            <div class="card-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#ff7f3f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M12 8V12L15 15" stroke="#ff7f3f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-val">SAME-DAY</div>
+                                <div class="card-label">PICKUP<br>AVAILABLE</div>
+                            </div>
+                        </div>
+                        
+                        <div class="glass-card card-3">
+                            <div class="card-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#ff7f3f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M12 18V12" stroke="#ff7f3f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M12 8.5V8" stroke="#ff7f3f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-val">98%</div>
+                                <div class="card-label">RECYCLED<br>WASTE</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <div class="bottom-right-location">
+            <div class="location-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 22C14 18 20 15.4183 20 10C20 5.58172 16.4183 2 12 2C7.58172 2 4 5.58172 4 10C4 15.4183 10 18 12 22Z" stroke="#ff7f3f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="12" cy="10" r="3" stroke="#ff7f3f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <div class="location-text">
+                PROUDLY SERVING<br>
+                MELBOURNE & SURROUNDS
+            </div>
+        </div>
+    </div>
+    
+    <!-- ============================================== -->
+    <!-- SECTION 2: SERVICES -->
+    <!-- ============================================== -->
+    <section class="sec2">
+        <div class="sec2-bg"></div>
+        <div class="sec2-ambient-glow"></div>
+        <div class="particles" id="sec2-particles-container"></div>
+        <div class="sec2-overlay"></div>
+
+        <div class="sec2-side-numbers">
+            <div class="num-top">01</div>
+            <div class="num-line"></div>
+            <div class="num-bottom">05</div>
+        </div>
+
+        <div class="sec2-container">
+            <div class="sec2-left">
+                <div class="sec2-top-label">
+                    <span class="label-orange">02 /</span> SERVICES
+                </div>
+
+                <h2 class="sec2-headline">
+                    <div class="line">Cleanup</div>
+                    <div class="line">Designed</div>
+                    <div class="line">Beautifully.</div>
+                </h2>
+
+                <p class="sec2-description">
+                    Sustainable waste removal tailored for residential, commercial and demolition environments across Melbourne.
+                </p>
+
+                <div class="sec2-metrics-card">
+                    <div class="metric-col">
+                        <div class="metric-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z" stroke="#ff7f3f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M7.75 11.9999L10.58 14.8299L16.25 9.16992" stroke="#ff7f3f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="metric-val">500+</div>
+                        <div class="metric-text">Projects<br>Completed</div>
+                    </div>
+                    <div class="metric-divider"></div>
+                    <div class="metric-col">
+                        <div class="metric-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="#ff7f3f" stroke-width="1.5" stroke-miterlimit="10"/>
+                                <path d="M12 21C12 21 15 17.5 15 12C15 6.5 12 3 12 3" stroke="#ff7f3f" stroke-width="1.5" stroke-miterlimit="10"/>
+                                <path d="M12 21C12 21 9 17.5 9 12C9 6.5 12 3 12 3" stroke="#ff7f3f" stroke-width="1.5" stroke-miterlimit="10"/>
+                                <path d="M3 12H21" stroke="#ff7f3f" stroke-width="1.5" stroke-miterlimit="10"/>
+                            </svg>
+                        </div>
+                        <div class="metric-val">98%</div>
+                        <div class="metric-text">Recycled<br>Waste</div>
+                    </div>
+                    <div class="metric-divider"></div>
+                    <div class="metric-col">
+                        <div class="metric-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#ff7f3f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 8V12L15 15" stroke="#ff7f3f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="metric-val">Same-Day</div>
+                        <div class="metric-text">Pickup<br>Available</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sec2-right">
+                <img src="SEC2A1.jpeg" alt="Main Service" class="sec2-main-image">
+                <img src="SEC2A2.jpeg" alt="Service Detail" class="sec2-lower-image">
+                <img src="SEC2A3.jpeg" alt="Service Detail" class="sec2-upper-image">
+            </div>
+        </div>
+
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SECTION 3: PROJECTS -->
+    <!-- ============================================== -->
+    <section class="sec3">
+        <div class="sec3-bg"></div>
+        <div class="sec3-overlay"></div>
+        <div class="particles" id="sec3-particles-container"></div>
+
+        <div class="sec3-container">
+            <div class="sec3-top-row">
+                <div class="sec3-header-left">
+                    <div class="sec3-top-label">
+                        <span class="label-orange">03 /</span> PROJECTS
+                    </div>
+                    <h2 class="sec3-headline">
+                        <div class="line">Transforming</div>
+                        <div class="line">Melbourne</div>
+                        <div class="line">Spaces.</div>
+                    </h2>
+                    <p class="sec3-description">
+                        From demolition cleanup to eco-conscious waste removal, we restore residential and commercial spaces with precision, care and sustainable practices.
+                    </p>
+                </div>
+
+                <div class="sec3-stats-vertical">
+                    <div class="sec3-stat-item">
+                        <div class="stat-label">Projects<br>Completed</div>
+                        <div class="stat-val">2.4K+</div>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="sec3-stat-item">
+                        <div class="stat-label">Waste Diverted<br>From Landfill</div>
+                        <div class="stat-val">18.7K+<span style="font-size: 14px; font-weight: 500;"> Tons</span></div>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="sec3-stat-item">
+                        <div class="stat-label">Happy<br>Clients</div>
+                        <div class="stat-val">1.6K+</div>
+                    </div>
+                </div>
+
+                <div class="sec3-top-right-image">
+                    <img src="SEC3A3.jpeg" alt="Project detail">
+                </div>
+            </div>
+
+            <div class="sec3-center-row">
+                <div class="sec3-main-landscape">
+                    <img src="SEC3A1.jpeg" alt="Main Showcase">
+                    <div class="landscape-overlay-text">
+                        Cleaner Spaces.<br>Better Living.
+                    </div>
+                </div>
+            </div>
+
+            <div class="sec3-bottom-row">
+                <div class="sec3-before-after">
+                    <img src="SEC3A2.jpeg" alt="Before and After">
+                    <div class="ba-labels">
+                        <span class="ba-label">BEFORE</span>
+                        <span class="ba-label">AFTER</span>
+                    </div>
+                    <div class="ba-slider-line">
+                        <div class="ba-slider-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18 8L22 12L18 16" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M6 8L2 12L6 16" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M22 12H2" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sec3-showcase-cards">
+                    <div class="showcase-card">
+                        <img src="SEC3A4.jpeg" alt="Card 1">
+                        <div class="showcase-card-text">DEMOLITION CLEANUP</div>
+                    </div>
+                    <div class="showcase-card">
+                        <img src="SEC3A5.jpeg" alt="Card 2">
+                        <div class="showcase-card-text">GREEN WASTE REMOVAL</div>
+                    </div>
+                    <div class="showcase-card">
+                        <img src="SEC3A6.jpeg" alt="Card 3">
+                        <div class="showcase-card-text">TRANSFORMED OUTDOOR SPACES</div>
+                    </div>
+                </div>
+
+                <div class="sec3-cta-card">
+                    <div class="cta-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#ff7f3f" stroke-width="1.5"/>
+                            <path d="M12 8C12 8 15 11.5 15 17C15 17 9 17 9 17C9 11.5 12 8 12 8Z" stroke="#ff7f3f" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                    <p class="cta-text">
+                        We restore spaces responsibly with sustainable cleanup solutions tailored for Melbourne environments.
+                    </p>
+                    <button class="btn-primary" style="margin-top: 24px; width: 100%; justify-content: center;">
+                        <span>VIEW PROJECTS</span>
+                        <div class="btn-arrow">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5 12H19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 5L19 12L12 19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SECTION 4: FOOTER -->
+    <!-- ============================================== -->
+    <footer class="sec4">
+        <div class="sec4-bg"></div>
+        <div class="sec4-overlay"></div>
+        <div class="particles" id="sec4-particles-container"></div>
+        
+        <div class="sec4-container">
+            <div class="sec4-top-row">
+                <!-- LEFT SIDE -->
+                <div class="sec4-left">
+                    <h2 class="sec4-headline">
+                        <div class="line">Let’s Clear</div>
+                        <div class="line">Something</div>
+                        <div class="line">Beautiful<span class="orange-dot">.</span></div>
+                    </h2>
+                    <p class="sec4-description">
+                        Premium waste removal and sustainable cleanup solutions across Melbourne.
+                    </p>
+                    <button class="btn-primary sec4-cta">
+                        <span>Get A Quote</span>
+                        <div class="btn-arrow">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5 12H19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 5L19 12L12 19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- CENTER STACK -->
+                <div class="sec4-center">
+                    <div class="contact-item">
+                        <div class="contact-label">PHONE</div>
+                        <div class="contact-value">03 9123 4567</div>
+                    </div>
+                    <div class="contact-divider"></div>
+                    <div class="contact-item">
+                        <div class="contact-label">EMAIL</div>
+                        <div class="contact-value">hello@allmelbournerubbishremoval.com.au</div>
+                    </div>
+                    <div class="contact-divider"></div>
+                    <div class="contact-item">
+                        <div class="contact-label">LOCATION</div>
+                        <div class="contact-value">Melbourne, Australia</div>
+                    </div>
+                    <div class="contact-divider"></div>
+                    <div class="contact-item follow-us">
+                        <div class="contact-label">FOLLOW US</div>
+                        <div class="social-icons">
+                            <a href="#" class="social-icon">IG</a>
+                            <a href="#" class="social-icon">FB</a>
+                            <a href="#" class="social-icon">EM</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT SIDE -->
+                <div class="sec4-right">
+                    <img src="SEC4A1.jpeg" alt="Footer Landscape" class="sec4-right-image">
+                    <div class="sec4-glass-card">
+                        <div class="glass-stat">98%</div>
+                        <div class="glass-stat-label">Recycled Waste</div>
+                        <p class="glass-desc">
+                            “Committed to keeping Melbourne clean, green and sustainable.”
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOTTOM FOOTER ROW -->
+            <div class="sec4-bottom-row">
+                <div class="footer-left-text">
+                    <div class="footer-copyright">
+                        &copy; 2025 <span class="debadrita-brand">DEBADRITA KUNDU</span>.
+                    </div>
+                    <div class="footer-demo-notice">
+                        Demo concept website created by <span class="debadrita-brand">DEBADRITA KUNDU</span>.<br>
+                        Not affiliated with or officially representing All Melbourne Rubbish Removal.
+                    </div>
+                </div>
+                <div class="footer-center-links">
+                    <a href="#">Home</a>
+                    <a href="#">Services</a>
+                    <a href="#">Our Process</a>
+                    <a href="#">Why Choose Us</a>
+                    <a href="#">Contact</a>
+                </div>
+                <div class="footer-right-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Instagram</a>
+                    <a href="#">Facebook</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 1. Particle Generation for SEC 1 & 2 & 3
+        const particlesContainer = document.getElementById('particles-container');
+        const sec2ParticlesContainer = document.getElementById('sec2-particles-container');
+        const sec3ParticlesContainer = document.getElementById('sec3-particles-container');
+        const sec4ParticlesContainer = document.getElementById('sec4-particles-container');
+        
+        function createParticles(container) {
+            for(let i=0; i<30; i++) {
+                let p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + 'vw';
+                p.style.top = Math.random() * 100 + 'vh';
+                p.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                p.style.animationDelay = (Math.random() * 5) + 's';
+                container.appendChild(p);
+            }
+        }
+        createParticles(particlesContainer);
+        createParticles(sec2ParticlesContainer);
+        createParticles(sec3ParticlesContainer);
+        createParticles(sec4ParticlesContainer);
+
+        // 0. Preloader Animation
+        const preloader = document.getElementById('preloader');
+        const loaderPercentage = document.getElementById('loader-percentage');
+        const loaderBarFill = document.getElementById('loader-bar-fill');
+        
+        // Crane animation loop
+        const craneTl = gsap.timeline({ repeat: -1, yoyo: true });
+        craneTl.to(".crane-hook-group", {
+            y: -25,
+            duration: 1.5,
+            ease: "power2.inOut"
+        }, 0);
+        craneTl.to(".crane-line", {
+            attr: { y2: 30 },
+            duration: 1.5,
+            ease: "power2.inOut"
+        }, 0);
+
+        // Fake loading progress
+        let progress = { value: 0 };
+        gsap.to(progress, {
+            value: 100,
+            duration: 3, // Loading takes 3 seconds
+            ease: "power1.inOut",
+            onUpdate: () => {
+                loaderPercentage.innerText = Math.round(progress.value) + '%';
+                loaderBarFill.style.width = progress.value + '%';
+            },
+            onComplete: () => {
+                // Outro animation for preloader
+                gsap.to(preloader, {
+                    yPercent: -100,
+                    duration: 1.2,
+                    ease: "expo.inOut",
+                    onComplete: () => {
+                        preloader.style.display = "none";
+                        masterTl.play();
+                    }
+                });
+            }
+        });
+
+        // 2. Initial Cinematic Reveal for SEC 1
+        const masterTl = gsap.timeline({ paused: true });
+        
+        // Background slow scale
+        masterTl.from(".hero-bg", {
+            scale: 1.15,
+            duration: 3,
+            ease: "power2.out"
+        }, 0);
+        
+        // Headline dramatic reveal
+        masterTl.from(".main-headline .line", {
+            y: 80,
+            z: -100,
+            rotationX: -60,
+            opacity: 0,
+            filter: "blur(12px)",
+            stagger: 0.15,
+            duration: 1.5,
+            ease: "power4.out"
+        }, 0.2);
+
+        // Main image floating in
+        masterTl.from(".main-image", {
+            y: 100,
+            x: 50,
+            z: -200,
+            rotationY: -15,
+            rotationX: 10,
+            opacity: 0,
+            duration: 2,
+            ease: "expo.out"
+        }, 0.4);
+
+        // Floating small image
+        masterTl.from(".floating-image", {
+            y: 150,
+            x: -50,
+            z: 100,
+            opacity: 0,
+            duration: 2,
+            ease: "expo.out"
+        }, 0.6);
+
+        // UI elements fading in
+        masterTl.from([".glass-card", ".top-label", ".description", ".hero-buttons", ".bottom-metrics", ".side-numbers", ".bottom-right-location", ".navbar"], {
+            y: 30,
+            opacity: 0,
+            stagger: 0.05,
+            duration: 1.2,
+            ease: "power3.out"
+        }, 0.8);
+
+        // 3. 3D Mouse Parallax Effect (SEC 1)
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5);
+            const y = (e.clientY / window.innerHeight - 0.5);
+
+            // Subtle background shift
+            gsap.to(".hero-bg", {
+                x: x * -30,
+                y: y * -30,
+                rotationY: x * 2,
+                rotationX: -y * 2,
+                ease: "power2.out",
+                duration: 2
+            });
+
+            // Ambient light shift
+            gsap.to(".ambient-glow", {
+                x: x * 100,
+                y: y * 100,
+                ease: "power2.out",
+                duration: 3
+            });
+
+            // Left column (text) tilt
+            gsap.to(".left-col", {
+                x: x * -15,
+                y: y * -15,
+                rotationY: x * 4,
+                rotationX: -y * 4,
+                ease: "power2.out",
+                duration: 1.5
+            });
+
+            // Main Image
+            gsap.to(".main-image", {
+                x: x * 40,
+                y: y * 40,
+                rotationY: x * 8,
+                rotationX: -y * 8,
+                ease: "power3.out",
+                duration: 1.5
+            });
+
+            // Floating small image (exaggerated depth)
+            gsap.to(".floating-image", {
+                x: x * 70,
+                y: y * 70,
+                rotationY: x * 12,
+                rotationX: -y * 12,
+                ease: "power3.out",
+                duration: 1.5
+            });
+
+            // Glass cards stagger depth
+            gsap.to(".glass-card", {
+                x: x * 50,
+                y: y * 50,
+                rotationY: x * 10,
+                rotationX: -y * 10,
+                stagger: 0.02,
+                ease: "power3.out",
+                duration: 1.5
+            });
+            
+            // Floating UI overlays
+            gsap.to([".navbar", ".side-numbers", ".bottom-right-location"], {
+                x: x * -20,
+                y: y * -20,
+                ease: "power2.out",
+                duration: 2
+            });
+            // SEC 2 Mouse Parallax Elements
+            gsap.to(".sec2-bg", { x: x * -20, y: y * -20, rotationY: x * 1.5, rotationX: -y * 1.5, ease: "power2.out", duration: 2 });
+            gsap.to(".sec2-ambient-glow", { x: x * 80, y: y * 80, ease: "power2.out", duration: 3 });
+            gsap.to(".sec2-left", { x: x * -10, y: y * -10, rotationY: x * 3, rotationX: -y * 3, ease: "power2.out", duration: 1.5 });
+            gsap.to(".sec2-metrics-card", { x: x * 15, y: y * 15, rotationY: x * 5, rotationX: -y * 5, ease: "power3.out", duration: 1.5 });
+            
+            gsap.to(".sec2-main-image", { x: x * 30, y: y * 30, rotationY: x * 6, rotationX: -y * 6, ease: "power3.out", duration: 1.5 });
+            gsap.to(".sec2-upper-image", { x: x * 50, y: y * 50, rotationY: x * 10, rotationX: -y * 10, ease: "power3.out", duration: 1.5 });
+            gsap.to(".sec2-lower-image", { x: x * 70, y: y * 70, rotationY: x * 14, rotationX: -y * 14, ease: "power3.out", duration: 1.5 });
+
+            // SEC 3 Mouse Parallax Elements
+            gsap.to(".sec3-bg", { x: x * -15, y: y * -15, rotationY: x * 1, rotationX: -y * 1, ease: "power2.out", duration: 2 });
+            gsap.to(".sec3-headline", { x: x * 15, y: y * 15, rotationY: x * 2, rotationX: -y * 2, ease: "power3.out", duration: 1.5 });
+            gsap.to(".landscape-overlay-text", { x: x * 40, y: y * 40, rotationY: x * 5, rotationX: -y * 5, ease: "power3.out", duration: 1.5 });
+            gsap.to(".sec3-main-landscape", { x: x * 20, y: y * 20, rotationY: x * 3, rotationX: -y * 3, ease: "power3.out", duration: 1.5 });
+            gsap.to(".sec3-top-right-image", { x: x * 40, y: y * 40, rotationY: x * 6, rotationX: -y * 6, ease: "power3.out", duration: 1.5 });
+            gsap.to(".sec3-before-after", { x: x * 50, y: y * 50, rotationY: x * 8, rotationX: -y * 8, ease: "power3.out", duration: 1.5 });
+            gsap.to(".sec3-cta-card", { x: x * 35, y: y * 35, rotationY: x * 5, rotationX: -y * 5, ease: "power3.out", duration: 1.5 });
+            gsap.to(".showcase-card", { x: x * 25, y: y * 25, rotationY: x * 4, rotationX: -y * 4, stagger: 0.02, ease: "power3.out", duration: 1.5 });
+
+            // SEC 4 Mouse Parallax Elements
+            gsap.to(".sec4-bg", { x: x * -10, y: y * -10, rotationY: x * 1, rotationX: -y * 1, ease: "power2.out", duration: 2 });
+            gsap.to(".sec4-headline", { x: x * 12, y: y * 12, rotationY: x * 2, rotationX: -y * 2, ease: "power3.out", duration: 1.5 });
+            gsap.to(".sec4-cta", { x: x * 20, y: y * 20, rotationY: x * 4, rotationX: -y * 4, ease: "power3.out", duration: 1.5 });
+            gsap.to(".contact-item", { x: x * 15, y: y * 15, rotationY: x * 2, rotationX: -y * 2, stagger: 0.02, ease: "power3.out", duration: 1.5 });
+            gsap.to(".sec4-right-image", { x: x * 30, y: y * 30, rotationY: x * 4, rotationX: -y * 4, ease: "power3.out", duration: 1.5 });
+            gsap.to(".sec4-glass-card", { x: x * 50, y: y * 50, rotationY: x * 8, rotationX: -y * 8, ease: "power3.out", duration: 1.5 });
+        });
+
+        // 4. Scroll-Based Cinematic Depth for SEC 1 (triggers as you scroll into SEC 2)
+        // Background scales up and darkens slightly
+        gsap.to(".hero-bg", {
+            scale: 1.2,
+            yPercent: 10,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".hero",
+                start: "top top",
+                end: "bottom top",
+                scrub: 0.5
+            }
+        });
+
+        // Left column pushes into the background
+        gsap.to(".left-col", {
+            z: -300,
+            y: -100,
+            opacity: 0,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".hero",
+                start: "top top",
+                end: "bottom top",
+                scrub: 0.5
+            }
+        });
+
+        // Main image rises
+        gsap.to(".main-image", {
+            y: -150,
+            z: 100,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".hero",
+                start: "top top",
+                end: "bottom top",
+                scrub: 0.5
+            }
+        });
+
+        // Floating image rises faster (parallax depth)
+        gsap.to(".floating-image", {
+            y: -300,
+            z: 200,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".hero",
+                start: "top top",
+                end: "bottom top",
+                scrub: 0.5
+            }
+        });
+
+        // Glass cards
+        gsap.utils.toArray(".glass-card").forEach((card, i) => {
+            gsap.to(card, {
+                y: -100 - (i * 60),
+                z: 50 + (i * 20),
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".hero",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: 0.5
+                }
+            });
+        });
+
+        // Floating animation loop for images
+        gsap.to(".main-image", {
+            y: "+=10",
+            duration: 4,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
+
+        gsap.to(".floating-image", {
+            y: "-=15",
+            rotationZ: 1,
+            duration: 5,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
+        
+        gsap.to(".glass-card", {
+            y: "-=8",
+            stagger: 0.2,
+            duration: 3,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
+
+        // ==============================================
+        // SEC 2: CINEMATIC ENTRANCE & PARALLAX
+        // ==============================================
+
+        // SEC 2 Entrance Timeline
+        const sec2Tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: ".sec2",
+                start: "top 70%", // Triggers when sec2 is 30% into viewport
+            }
+        });
+
+        sec2Tl.from(".sec2-headline .line", {
+            y: 80, z: -100, rotationX: -60, opacity: 0, filter: "blur(12px)", stagger: 0.15, duration: 1.5, ease: "power4.out"
+        }, 0)
+        .from(".sec2-description", { y: 30, opacity: 0, duration: 1.2, ease: "power3.out" }, 0.4)
+        .from(".sec2-metrics-card", { y: 60, opacity: 0, rotationX: -20, duration: 1.5, ease: "power4.out" }, 0.6)
+        .from(".sec2-main-image", { y: 150, z: -200, rotationY: -15, opacity: 0, duration: 2, ease: "expo.out" }, 0.2)
+        .from(".sec2-lower-image", { y: 200, x: -50, z: 100, opacity: 0, duration: 2, ease: "expo.out" }, 0.4)
+        .from(".sec2-upper-image", { y: 100, x: 50, z: -50, opacity: 0, duration: 2, ease: "expo.out" }, 0.6)
+        .from([".sec2-side-numbers", ".sec2-top-label", ".sec2-bottom-accent"], { opacity: 0, duration: 1.5 }, 0.8);
+
+        // SEC 2 Scroll-Based Environmental Depth
+        gsap.to(".sec2-bg", {
+            scale: 1.15,
+            yPercent: 15,
+            ease: "none",
+            scrollTrigger: { trigger: ".sec2", start: "top bottom", end: "bottom top", scrub: 0.5 }
+        });
+
+        gsap.to(".sec2-main-image", {
+            yPercent: -15, z: 50,
+            ease: "none",
+            scrollTrigger: { trigger: ".sec2", start: "top bottom", end: "bottom top", scrub: 0.5 }
+        });
+
+        gsap.to(".sec2-upper-image", {
+            yPercent: -25, z: -50,
+            ease: "none",
+            scrollTrigger: { trigger: ".sec2", start: "top bottom", end: "bottom top", scrub: 0.5 }
+        });
+
+        gsap.to(".sec2-lower-image", {
+            yPercent: -20, z: 150,
+            ease: "none",
+            scrollTrigger: { trigger: ".sec2", start: "top bottom", end: "bottom top", scrub: 0.5 }
+        });
+
+        gsap.to(".sec2-metrics-card", {
+            yPercent: -10, z: 100,
+            ease: "none",
+            scrollTrigger: { trigger: ".sec2", start: "top bottom", end: "bottom top", scrub: 0.5 }
+        });
+
+        // SEC 2 Floating animation loop for images
+        gsap.to(".sec2-main-image", { y: "+=12", duration: 4.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
+        gsap.to(".sec2-upper-image", { y: "-=10", rotationZ: 1, duration: 3.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
+        gsap.to(".sec2-lower-image", { y: "-=18", rotationZ: -1.5, duration: 5.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
+
+        // ==============================================
+        // SEC 3: CINEMATIC ENTRANCE & PARALLAX
+        // ==============================================
+
+        // SEC 3 Entrance Timeline
+        const sec3Tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: ".sec3",
+                start: "top 70%", 
+            }
+        });
+
+        sec3Tl.from(".sec3-headline .line", { 
+            y: 80,
+            z: -100,
+            rotationX: -60,
+            opacity: 0,
+            filter: "blur(12px)",
+            stagger: 0.15,
+            duration: 1.5,
+            ease: "power4.out"
+        }, 0)
+        .from(".sec3-top-label", { opacity: 0, y: 20, letterSpacing: "10px", duration: 2, ease: "power3.out" }, 0.2)
+        .from(".sec3-description", { y: 40, opacity: 0, filter: "blur(10px)", duration: 2, ease: "power4.out" }, 0.6)
+        .from(".sec3-stat-item", { x: 80, opacity: 0, filter: "blur(12px)", stagger: 0.2, duration: 2, ease: "expo.out" }, 0.6)
+        .from(".sec3-top-right-image", { y: 200, z: -150, opacity: 0, rotationY: 25, duration: 2.5, ease: "expo.out" }, 0.2)
+        .from(".sec3-main-landscape", { y: 150, z: -100, scale: 0.95, opacity: 0, rotationX: 15, duration: 2.5, ease: "expo.out" }, 0.4)
+        .from(".landscape-overlay-text", { 
+            y: 80, 
+            z: 150, 
+            rotationX: -30, 
+            opacity: 0, 
+            filter: "blur(16px)", 
+            scale: 0.85,
+            duration: 2.5, 
+            ease: "expo.out" 
+        }, 0.8)
+        .from(".sec3-before-after", { y: 150, x: -80, z: 200, opacity: 0, rotationY: -15, duration: 2.5, ease: "expo.out" }, 0.6)
+        .from(".showcase-card", { y: 100, z: -50, opacity: 0, rotationX: 20, stagger: 0.15, duration: 2, ease: "power4.out" }, 0.8)
+        .from(".sec3-cta-card", { y: 120, x: 50, z: 150, opacity: 0, rotationY: 15, duration: 2.5, ease: "expo.out" }, 0.9);
+
+        // SEC 3 Scroll Parallax (Scrubbing)
+        gsap.to(".sec3-bg", { scale: 1.1, yPercent: 10, ease: "none", scrollTrigger: { trigger: ".sec3", start: "top bottom", end: "bottom top", scrub: true } });
+        gsap.to(".sec3-main-landscape", { yPercent: -5, z: 50, ease: "none", scrollTrigger: { trigger: ".sec3", start: "top bottom", end: "bottom top", scrub: true } });
+        gsap.to(".sec3-top-right-image", { yPercent: -15, z: 120, ease: "none", scrollTrigger: { trigger: ".sec3", start: "top bottom", end: "bottom top", scrub: true } });
+        gsap.to(".sec3-before-after", { yPercent: -20, z: 150, ease: "none", scrollTrigger: { trigger: ".sec3", start: "top bottom", end: "bottom top", scrub: true } });
+        gsap.to(".sec3-cta-card", { yPercent: -10, z: 80, ease: "none", scrollTrigger: { trigger: ".sec3", start: "top bottom", end: "bottom top", scrub: true } });
+        
+        // SEC 3 Floating Loop
+        gsap.to(".sec3-main-landscape", { y: "+=8", duration: 6, repeat: -1, yoyo: true, ease: "sine.inOut" });
+        gsap.to(".sec3-top-right-image", { y: "-=12", rotationZ: 0.5, duration: 4, repeat: -1, yoyo: true, ease: "sine.inOut" });
+        gsap.to(".sec3-before-after", { y: "-=15", rotationZ: -0.5, duration: 5, repeat: -1, yoyo: true, ease: "sine.inOut" });
+        gsap.to(".sec3-cta-card", { y: "-=8", duration: 3.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
+
+        // ==============================================
+        // SEC 4: CINEMATIC ENTRANCE & PARALLAX
+        // ==============================================
+
+        const sec4Tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: ".sec4",
+                start: "top 75%",
+            }
+        });
+
+        sec4Tl.from(".sec4-headline .line", { 
+            y: 80,
+            z: -100,
+            rotationX: -60,
+            opacity: 0,
+            filter: "blur(12px)",
+            stagger: 0.15,
+            duration: 1.5,
+            ease: "power4.out"
+        }, 0)
+        .from(".sec4-description", { y: 40, opacity: 0, filter: "blur(8px)", duration: 1.5, ease: "power3.out" }, 0.4)
+        .from(".sec4-cta", { y: 60, z: 50, opacity: 0, duration: 1.5, ease: "power3.out" }, 0.6)
+        .from(".contact-item", { x: 50, opacity: 0, filter: "blur(6px)", stagger: 0.1, duration: 1.2, ease: "power3.out" }, 0.5)
+        .from(".sec4-right-image", { y: 150, z: -150, opacity: 0, rotationY: -15, duration: 2, ease: "expo.out" }, 0.2)
+        .from(".sec4-glass-card", { y: 100, x: -50, z: 150, opacity: 0, rotationY: 15, duration: 2, ease: "expo.out" }, 0.6)
+        .from(".sec4-bottom-row", { y: 30, opacity: 0, duration: 1.5, ease: "power3.out" }, 0.8);
+
+        // SEC 4 Scroll Parallax
+        gsap.to(".sec4-bg", { scale: 1.1, yPercent: 10, ease: "none", scrollTrigger: { trigger: ".sec4", start: "top bottom", end: "bottom bottom", scrub: true } });
+        gsap.to(".sec4-right-image", { yPercent: -10, z: -50, ease: "none", scrollTrigger: { trigger: ".sec4", start: "top bottom", end: "bottom bottom", scrub: true } });
+        gsap.to(".sec4-glass-card", { yPercent: -20, z: 100, ease: "none", scrollTrigger: { trigger: ".sec4", start: "top bottom", end: "bottom bottom", scrub: true } });
+
+        // SEC 4 Floating Loop
+        gsap.to(".sec4-right-image", { y: "+=10", rotationZ: -0.5, duration: 5, repeat: -1, yoyo: true, ease: "sine.inOut" });
+        gsap.to(".sec4-glass-card", { y: "-=15", rotationZ: 1, duration: 4, repeat: -1, yoyo: true, ease: "sine.inOut" });
+        gsap.to(".sec4-cta", { y: "-=5", duration: 3, repeat: -1, yoyo: true, ease: "sine.inOut" });
+
+    </script>
+</body>
+</html>
