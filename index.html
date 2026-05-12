@@ -536,6 +536,12 @@
     <script>
         gsap.registerPlugin(ScrollTrigger);
 
+        const isMobile = window.innerWidth <= 992;
+        if (isMobile) {
+            // Slow down all animations on mobile
+            gsap.globalTimeline.timeScale(0.6);
+        }
+
         // 1. Particle Generation for SEC 1 & 2 & 3
         const particlesContainer = document.getElementById('particles-container');
         const sec2ParticlesContainer = document.getElementById('sec2-particles-container');
@@ -655,6 +661,7 @@
 
         // 3. 3D Mouse Parallax Effect (SEC 1)
         document.addEventListener('mousemove', (e) => {
+            if (isMobile) return; // Disable mouse parallax on mobile
             const x = (e.clientX / window.innerWidth - 0.5);
             const y = (e.clientY / window.innerHeight - 0.5);
 
