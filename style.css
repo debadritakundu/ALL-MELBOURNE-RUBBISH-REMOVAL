@@ -1543,14 +1543,23 @@ body {
 /* ==============================================
    RESPONSIVE DESIGN (MOBILE & TABLET)
    ============================================== */
+
+html, body {
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
 @media (max-width: 992px) {
-    /* General Hiding of desktop-only elements */
+    /* Hide decorative/desktop elements */
     .side-numbers, .sec2-side-numbers, .bottom-right-location, .sec2-bottom-accent {
         display: none !important;
     }
     
     .navbar {
-        padding: 20px 20px;
+        padding: 20px;
+        width: 100%;
+        max-width: 100vw;
+        box-sizing: border-box;
     }
     
     .nav-links {
@@ -1562,82 +1571,132 @@ body {
         min-height: 100vh;
         height: auto;
         padding-bottom: 60px;
+        width: 100%;
+        max-width: 100vw;
     }
     
     .hero-content {
         flex-direction: column;
         padding: 80px 20px 40px;
         text-align: center;
-        gap: 60px;
+        gap: 40px;
+        width: 100%;
+        max-width: 100vw;
+        box-sizing: border-box;
     }
     
     .left-col {
         align-items: center;
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .top-label {
+        font-size: 10px;
+        letter-spacing: 1px;
+        white-space: normal;
+        text-align: center;
     }
     
     .main-headline {
-        font-size: 3.5rem;
+        font-size: 3rem;
+        align-items: center;
+        text-align: center;
+        width: 100%;
+    }
+    
+    .description {
+        width: 100%;
+        max-width: 100%;
+        font-size: 1rem;
     }
     
     .bottom-metrics {
         flex-direction: column;
-        gap: 24px;
+        gap: 20px;
         align-items: center;
+        width: 100%;
     }
     
     .right-col {
         width: 100%;
-        max-width: 400px;
+        max-width: 100%;
         height: 450px;
+        display: flex;
+        justify-content: center;
+        margin-top: 40px;
+    }
+    
+    .image-showcase {
+        width: 100%;
+        max-width: 320px;
+        position: relative;
     }
     
     .main-image {
-        right: 0;
-        left: 50%;
-        transform: translateX(-50%) !important;
-        width: 85%;
+        right: auto;
+        left: 0;
+        width: 100%;
         height: 400px;
+        position: relative;
+        margin: 0 auto;
     }
     
     .floating-image {
         width: 140px;
         height: 180px;
-        left: 0;
-        bottom: 20px;
+        left: -20px;
+        bottom: -20px;
     }
     
     .floating-cards {
-        right: 0;
-        transform: scale(0.7);
+        right: -20px;
+        transform: scale(0.65);
         transform-origin: right center;
     }
     
     /* Section 2 */
     .sec2 {
-        min-height: 100vh;
+        min-height: auto;
         height: auto;
-        padding: 80px 0;
+        padding: 60px 0;
+        width: 100%;
+        max-width: 100vw;
     }
     
     .sec2-container {
         flex-direction: column;
         padding: 0 20px;
-        gap: 60px;
+        gap: 40px;
         text-align: center;
+        width: 100%;
+        max-width: 100vw;
+        box-sizing: border-box;
     }
     
     .sec2-left {
         align-items: center;
+        width: 100%;
+        max-width: 100%;
     }
     
     .sec2-headline {
-        font-size: 3.5rem;
+        font-size: 3rem;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .sec2-description {
+        width: 100%;
     }
     
     .sec2-metrics-card {
         flex-direction: column;
         gap: 20px;
         padding: 24px;
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
     }
     
     .sec2-metrics-card .metric-divider {
@@ -1648,46 +1707,67 @@ body {
     
     .sec2-right {
         width: 100%;
-        max-width: 400px;
-        height: 450px;
+        max-width: 320px;
+        height: 400px;
+        margin: 40px auto 0;
+        position: relative;
     }
     
     .sec2-main-image {
-        width: 80%;
-        height: 400px;
+        width: 100%;
+        height: 350px;
+        position: relative;
+        left: 0;
+        top: 0;
+        transform: none; /* Let GSAP handle transforms, but reset initial base */
+        margin: 0 auto;
     }
     
     .sec2-upper-image {
         width: 120px;
         height: 160px;
-        right: 0;
+        right: -10px;
+        top: -20px;
     }
     
     .sec2-lower-image {
         width: 140px;
         height: 180px;
-        left: 0;
+        left: -10px;
+        bottom: -20px;
     }
     
     /* Section 3 */
     .sec3 {
-        padding: 80px 20px;
+        padding: 60px 20px;
+        min-height: auto;
+        width: 100%;
+        max-width: 100vw;
+        box-sizing: border-box;
+    }
+    
+    .sec3-container {
+        width: 100%;
+        max-width: 100%;
     }
     
     .sec3-top-row {
         flex-direction: column;
         align-items: center;
         text-align: center;
-        gap: 40px;
+        gap: 30px;
     }
     
     .sec3-headline {
-        font-size: 3.5rem;
+        font-size: 3rem;
+        align-items: center;
+        text-align: center;
     }
     
     .sec3-stats-vertical {
         margin: 0;
         align-items: center;
+        width: 100%;
     }
     
     .sec3-stat-item {
@@ -1695,29 +1775,35 @@ body {
         align-items: center;
         text-align: center;
         gap: 8px;
+        width: 100%;
     }
     
     .sec3-stat-item .stat-label {
         text-align: center;
+        width: 100%;
     }
     
     .sec3-top-right-image {
         position: relative;
         right: 0;
         top: 0;
-        margin-top: 40px;
+        margin-top: 30px;
+        width: 100%;
+        max-width: 280px;
     }
     
     .sec3-center-row {
         margin-top: 40px;
+        width: 100%;
     }
     
     .sec3-main-landscape {
-        height: 250px;
+        height: 200px;
+        width: 100%;
     }
     
     .landscape-overlay-text {
-        font-size: 2rem;
+        font-size: 1.8rem;
         bottom: 20px;
         left: 20px;
     }
@@ -1726,7 +1812,8 @@ body {
         flex-direction: column;
         align-items: center;
         margin-top: 40px;
-        gap: 40px;
+        gap: 30px;
+        width: 100%;
     }
     
     .sec3-before-after {
@@ -1734,45 +1821,68 @@ body {
         left: 0;
         top: 0;
         width: 100%;
-        max-width: 400px;
+        max-width: 320px;
+        height: 200px;
     }
     
     .sec3-showcase-cards {
         flex-direction: column;
         margin-top: 20px;
         align-items: center;
+        width: 100%;
+        gap: 20px;
+    }
+    
+    .showcase-card {
+        width: 100%;
+        max-width: 320px;
     }
     
     .sec3-cta-card {
         position: relative;
         right: 0;
         top: 0;
-        margin-top: 40px;
+        margin-top: 30px;
         width: 100%;
-        max-width: 340px;
+        max-width: 320px;
+        box-sizing: border-box;
     }
     
     /* Section 4 */
     .sec4 {
         padding: 60px 0 20px;
+        width: 100%;
+        max-width: 100vw;
     }
     
     .sec4-container {
         padding: 0 20px;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     .sec4-top-row {
         flex-direction: column;
         align-items: center;
         text-align: center;
+        gap: 40px;
     }
     
     .sec4-left {
         align-items: center;
+        width: 100%;
+        max-width: 100%;
     }
     
     .sec4-headline {
-        font-size: 3.5rem;
+        font-size: 3rem;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .sec4-description {
+        width: 100%;
+        max-width: 100%;
     }
     
     .sec4-center {
@@ -1787,19 +1897,28 @@ body {
     
     .sec4-right {
         width: 100%;
-        max-width: 340px;
-        height: 380px;
-        margin-top: 40px;
+        max-width: 320px;
+        height: auto;
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+    }
+    
+    .sec4-right-image {
+        height: 300px;
+        position: relative;
     }
     
     .sec4-glass-card {
-        left: 50%;
-        transform: translateX(-50%) !important;
-        bottom: -30px;
-    }
-    
-    .sec4-glass-card:hover {
-        transform: translateX(-50%) translateY(-8px) translateZ(30px) !important;
+        position: relative;
+        left: 0;
+        bottom: 0;
+        margin-top: -40px;
+        width: 100%;
+        max-width: 280px;
+        z-index: 5;
     }
     
     .sec4-bottom-row {
@@ -1807,21 +1926,29 @@ body {
         align-items: center;
         text-align: center;
         gap: 20px;
+        width: 100%;
+    }
+    
+    .footer-left-text {
+        width: 100%;
+        max-width: 100%;
     }
     
     .footer-center-links, .footer-right-links {
         flex-wrap: wrap;
         justify-content: center;
         gap: 16px;
+        width: 100%;
     }
 }
 
 @media (max-width: 480px) {
-    .main-headline { font-size: 2.8rem; }
-    .sec2-headline, .sec3-headline, .sec4-headline { font-size: 2.5rem; }
+    .main-headline { font-size: 2.2rem; }
+    .sec2-headline, .sec3-headline, .sec4-headline { font-size: 2.2rem; }
     .landscape-overlay-text { font-size: 1.5rem; }
     .nav-cta { padding: 8px 16px; font-size: 11px; }
-    .logo-text { font-size: 11px; }
+    .logo-text { font-size: 10px; }
     .hero-buttons { flex-direction: column; width: 100%; }
     .hero-buttons button { width: 100%; justify-content: center; }
+    .glass-stat { font-size: 2rem; }
 }
