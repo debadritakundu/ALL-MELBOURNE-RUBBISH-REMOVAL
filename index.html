@@ -536,20 +536,20 @@
     <script>
         gsap.registerPlugin(ScrollTrigger);
 
-        const isMobile = window.innerWidth <= 992;
+        const isMobile = window.matchMedia("(max-width: 992px)").matches;
         if (isMobile) {
-            // Slow down all animations on mobile
             gsap.globalTimeline.timeScale(0.6);
         }
 
-        // 1. Particle Generation for SEC 1 & 2 & 3
+        // 1. Particle Generation
         const particlesContainer = document.getElementById('particles-container');
         const sec2ParticlesContainer = document.getElementById('sec2-particles-container');
         const sec3ParticlesContainer = document.getElementById('sec3-particles-container');
         const sec4ParticlesContainer = document.getElementById('sec4-particles-container');
         
+        const particleCount = isMobile ? 8 : 30;
         function createParticles(container) {
-            for(let i=0; i<30; i++) {
+            for(let i=0; i<particleCount; i++) {
                 let p = document.createElement('div');
                 p.className = 'particle';
                 p.style.left = Math.random() * 100 + 'vw';
@@ -609,55 +609,23 @@
         // 2. Initial Cinematic Reveal for SEC 1
         const masterTl = gsap.timeline({ paused: true });
         
-        // Background slow scale
-        masterTl.from(".hero-bg", {
-            scale: 1.15,
-            duration: 3,
-            ease: "power2.out"
-        }, 0);
-        
-        // Headline dramatic reveal
-        masterTl.from(".main-headline .line", {
-            y: 80,
-            z: -100,
-            rotationX: -60,
-            opacity: 0,
-            filter: "blur(12px)",
-            stagger: 0.15,
-            duration: 1.5,
-            ease: "power4.out"
-        }, 0.2);
-
-        // Main image floating in
-        masterTl.from(".main-image", {
-            y: 100,
-            x: 50,
-            z: -200,
-            rotationY: -15,
-            rotationX: 10,
-            opacity: 0,
-            duration: 2,
-            ease: "expo.out"
-        }, 0.4);
-
-        // Floating small image
-        masterTl.from(".floating-image", {
-            y: 150,
-            x: -50,
-            z: 100,
-            opacity: 0,
-            duration: 2,
-            ease: "expo.out"
-        }, 0.6);
-
-        // UI elements fading in
-        masterTl.from([".glass-card", ".top-label", ".description", ".hero-buttons", ".bottom-metrics", ".side-numbers", ".bottom-right-location", ".navbar"], {
-            y: 30,
-            opacity: 0,
-            stagger: 0.05,
-            duration: 1.2,
-            ease: "power3.out"
-        }, 0.8);
+        if (isMobile) {
+            // Simple, flat mobile animations (no 3D)
+            masterTl.from(".hero-bg", { scale: 1.05, duration: 2, ease: "power2.out" }, 0);
+            masterTl.from(".main-headline .line", { y: 40, opacity: 0, stagger: 0.1, duration: 1, ease: "power3.out" }, 0.2);
+            masterTl.from(".main-image", { y: 60, opacity: 0, duration: 1.5, ease: "power3.out" }, 0.4);
+            masterTl.from([".glass-card", ".top-label", ".description", ".hero-buttons", ".bottom-metrics", ".navbar"], {
+                y: 20, opacity: 0, stagger: 0.05, duration: 1, ease: "power3.out"
+            }, 0.6);
+        } else {
+            masterTl.from(".hero-bg", { scale: 1.15, duration: 3, ease: "power2.out" }, 0);
+            masterTl.from(".main-headline .line", { y: 80, z: -100, rotationX: -60, opacity: 0, filter: "blur(12px)", stagger: 0.15, duration: 1.5, ease: "power4.out" }, 0.2);
+            masterTl.from(".main-image", { y: 100, x: 50, z: -200, rotationY: -15, rotationX: 10, opacity: 0, duration: 2, ease: "expo.out" }, 0.4);
+            masterTl.from(".floating-image", { y: 150, x: -50, z: 100, opacity: 0, duration: 2, ease: "expo.out" }, 0.6);
+            masterTl.from([".glass-card", ".top-label", ".description", ".hero-buttons", ".bottom-metrics", ".side-numbers", ".bottom-right-location", ".navbar"], {
+                y: 30, opacity: 0, stagger: 0.05, duration: 1.2, ease: "power3.out"
+            }, 0.8);
+        }
 
         // 3. 3D Mouse Parallax Effect (SEC 1)
         document.addEventListener('mousemove', (e) => {
@@ -760,117 +728,25 @@
             gsap.to(".sec4-glass-card", { x: x * 50, y: y * 50, rotationY: x * 8, rotationX: -y * 8, ease: "power3.out", duration: 1.5 });
         });
 
-        // 4. Scroll-Based Cinematic Depth for SEC 1 (triggers as you scroll into SEC 2)
-        // Background scales up and darkens slightly
-        gsap.to(".hero-bg", {
-            scale: 1.2,
-            yPercent: 10,
-            ease: "none",
-            scrollTrigger: {
-                trigger: ".hero",
-                start: "top top",
-                end: "bottom top",
-                scrub: 0.5
-            }
-        });
-
-        // Left column pushes into the background
-        gsap.to(".left-col", {
-            z: -300,
-            y: -100,
-            opacity: 0,
-            ease: "none",
-            scrollTrigger: {
-                trigger: ".hero",
-                start: "top top",
-                end: "bottom top",
-                scrub: 0.5
-            }
-        });
-
-        // Main image rises
-        gsap.to(".main-image", {
-            y: -150,
-            z: 100,
-            ease: "none",
-            scrollTrigger: {
-                trigger: ".hero",
-                start: "top top",
-                end: "bottom top",
-                scrub: 0.5
-            }
-        });
-
-        // Floating image rises faster (parallax depth)
-        gsap.to(".floating-image", {
-            y: -300,
-            z: 200,
-            ease: "none",
-            scrollTrigger: {
-                trigger: ".hero",
-                start: "top top",
-                end: "bottom top",
-                scrub: 0.5
-            }
-        });
-
-        // Glass cards
+        // 4-9. All scroll parallax, floating loops, entrance timelines
+        if (!isMobile) {
+        // SEC 1 scroll depth
+        gsap.to(".hero-bg", { scale: 1.2, yPercent: 10, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 0.5 } });
+        gsap.to(".left-col", { z: -300, y: -100, opacity: 0, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 0.5 } });
+        gsap.to(".main-image", { y: -150, z: 100, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 0.5 } });
+        gsap.to(".floating-image", { y: -300, z: 200, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 0.5 } });
         gsap.utils.toArray(".glass-card").forEach((card, i) => {
-            gsap.to(card, {
-                y: -100 - (i * 60),
-                z: 50 + (i * 20),
-                ease: "none",
-                scrollTrigger: {
-                    trigger: ".hero",
-                    start: "top top",
-                    end: "bottom top",
-                    scrub: 0.5
-                }
-            });
+            gsap.to(card, { y: -100 - (i * 60), z: 50 + (i * 20), ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 0.5 } });
         });
 
-        // Floating animation loop for images
-        gsap.to(".main-image", {
-            y: "+=10",
-            duration: 4,
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut"
-        });
+        // SEC 1 floating loops
+        gsap.to(".main-image", { y: "+=10", duration: 4, repeat: -1, yoyo: true, ease: "sine.inOut" });
+        gsap.to(".floating-image", { y: "-=15", rotationZ: 1, duration: 5, repeat: -1, yoyo: true, ease: "sine.inOut" });
+        gsap.to(".glass-card", { y: "-=8", stagger: 0.2, duration: 3, repeat: -1, yoyo: true, ease: "sine.inOut" });
 
-        gsap.to(".floating-image", {
-            y: "-=15",
-            rotationZ: 1,
-            duration: 5,
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut"
-        });
-        
-        gsap.to(".glass-card", {
-            y: "-=8",
-            stagger: 0.2,
-            duration: 3,
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut"
-        });
-
-        // ==============================================
-        // SEC 2: CINEMATIC ENTRANCE & PARALLAX
-        // ==============================================
-
-        // SEC 2 Entrance Timeline
-        const sec2Tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: ".sec2",
-                start: "top 70%", // Triggers when sec2 is 30% into viewport
-            }
-        });
-
-        sec2Tl.from(".sec2-headline .line", {
-            y: 80, z: -100, rotationX: -60, opacity: 0, filter: "blur(12px)", stagger: 0.15, duration: 1.5, ease: "power4.out"
-        }, 0)
+        // SEC 2 Entrance
+        const sec2Tl = gsap.timeline({ scrollTrigger: { trigger: ".sec2", start: "top 70%" } });
+        sec2Tl.from(".sec2-headline .line", { y: 80, z: -100, rotationX: -60, opacity: 0, filter: "blur(12px)", stagger: 0.15, duration: 1.5, ease: "power4.out" }, 0)
         .from(".sec2-description", { y: 30, opacity: 0, duration: 1.2, ease: "power3.out" }, 0.4)
         .from(".sec2-metrics-card", { y: 60, opacity: 0, rotationX: -20, duration: 1.5, ease: "power4.out" }, 0.6)
         .from(".sec2-main-image", { y: 150, z: -200, rotationY: -15, opacity: 0, duration: 2, ease: "expo.out" }, 0.2)
@@ -878,118 +754,47 @@
         .from(".sec2-upper-image", { y: 100, x: 50, z: -50, opacity: 0, duration: 2, ease: "expo.out" }, 0.6)
         .from([".sec2-side-numbers", ".sec2-top-label", ".sec2-bottom-accent"], { opacity: 0, duration: 1.5 }, 0.8);
 
-        // SEC 2 Scroll-Based Environmental Depth
-        gsap.to(".sec2-bg", {
-            scale: 1.15,
-            yPercent: 15,
-            ease: "none",
-            scrollTrigger: { trigger: ".sec2", start: "top bottom", end: "bottom top", scrub: 0.5 }
-        });
+        // SEC 2 scroll depth
+        gsap.to(".sec2-bg", { scale: 1.15, yPercent: 15, ease: "none", scrollTrigger: { trigger: ".sec2", start: "top bottom", end: "bottom top", scrub: 0.5 } });
+        gsap.to(".sec2-main-image", { yPercent: -15, z: 50, ease: "none", scrollTrigger: { trigger: ".sec2", start: "top bottom", end: "bottom top", scrub: 0.5 } });
+        gsap.to(".sec2-upper-image", { yPercent: -25, z: -50, ease: "none", scrollTrigger: { trigger: ".sec2", start: "top bottom", end: "bottom top", scrub: 0.5 } });
+        gsap.to(".sec2-lower-image", { yPercent: -20, z: 150, ease: "none", scrollTrigger: { trigger: ".sec2", start: "top bottom", end: "bottom top", scrub: 0.5 } });
+        gsap.to(".sec2-metrics-card", { yPercent: -10, z: 100, ease: "none", scrollTrigger: { trigger: ".sec2", start: "top bottom", end: "bottom top", scrub: 0.5 } });
 
-        gsap.to(".sec2-main-image", {
-            yPercent: -15, z: 50,
-            ease: "none",
-            scrollTrigger: { trigger: ".sec2", start: "top bottom", end: "bottom top", scrub: 0.5 }
-        });
-
-        gsap.to(".sec2-upper-image", {
-            yPercent: -25, z: -50,
-            ease: "none",
-            scrollTrigger: { trigger: ".sec2", start: "top bottom", end: "bottom top", scrub: 0.5 }
-        });
-
-        gsap.to(".sec2-lower-image", {
-            yPercent: -20, z: 150,
-            ease: "none",
-            scrollTrigger: { trigger: ".sec2", start: "top bottom", end: "bottom top", scrub: 0.5 }
-        });
-
-        gsap.to(".sec2-metrics-card", {
-            yPercent: -10, z: 100,
-            ease: "none",
-            scrollTrigger: { trigger: ".sec2", start: "top bottom", end: "bottom top", scrub: 0.5 }
-        });
-
-        // SEC 2 Floating animation loop for images
+        // SEC 2 floating loops
         gsap.to(".sec2-main-image", { y: "+=12", duration: 4.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
         gsap.to(".sec2-upper-image", { y: "-=10", rotationZ: 1, duration: 3.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
         gsap.to(".sec2-lower-image", { y: "-=18", rotationZ: -1.5, duration: 5.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
 
-        // ==============================================
-        // SEC 3: CINEMATIC ENTRANCE & PARALLAX
-        // ==============================================
-
-        // SEC 3 Entrance Timeline
-        const sec3Tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: ".sec3",
-                start: "top 70%", 
-            }
-        });
-
-        sec3Tl.from(".sec3-headline .line", { 
-            y: 80,
-            z: -100,
-            rotationX: -60,
-            opacity: 0,
-            filter: "blur(12px)",
-            stagger: 0.15,
-            duration: 1.5,
-            ease: "power4.out"
-        }, 0)
+        // SEC 3 Entrance
+        const sec3Tl = gsap.timeline({ scrollTrigger: { trigger: ".sec3", start: "top 70%" } });
+        sec3Tl.from(".sec3-headline .line", { y: 80, z: -100, rotationX: -60, opacity: 0, filter: "blur(12px)", stagger: 0.15, duration: 1.5, ease: "power4.out" }, 0)
         .from(".sec3-top-label", { opacity: 0, y: 20, letterSpacing: "10px", duration: 2, ease: "power3.out" }, 0.2)
         .from(".sec3-description", { y: 40, opacity: 0, filter: "blur(10px)", duration: 2, ease: "power4.out" }, 0.6)
         .from(".sec3-stat-item", { x: 80, opacity: 0, filter: "blur(12px)", stagger: 0.2, duration: 2, ease: "expo.out" }, 0.6)
         .from(".sec3-top-right-image", { y: 200, z: -150, opacity: 0, rotationY: 25, duration: 2.5, ease: "expo.out" }, 0.2)
         .from(".sec3-main-landscape", { y: 150, z: -100, scale: 0.95, opacity: 0, rotationX: 15, duration: 2.5, ease: "expo.out" }, 0.4)
-        .from(".landscape-overlay-text", { 
-            y: 80, 
-            z: 150, 
-            rotationX: -30, 
-            opacity: 0, 
-            filter: "blur(16px)", 
-            scale: 0.85,
-            duration: 2.5, 
-            ease: "expo.out" 
-        }, 0.8)
+        .from(".landscape-overlay-text", { y: 80, z: 150, rotationX: -30, opacity: 0, filter: "blur(16px)", scale: 0.85, duration: 2.5, ease: "expo.out" }, 0.8)
         .from(".sec3-before-after", { y: 150, x: -80, z: 200, opacity: 0, rotationY: -15, duration: 2.5, ease: "expo.out" }, 0.6)
         .from(".showcase-card", { y: 100, z: -50, opacity: 0, rotationX: 20, stagger: 0.15, duration: 2, ease: "power4.out" }, 0.8)
         .from(".sec3-cta-card", { y: 120, x: 50, z: 150, opacity: 0, rotationY: 15, duration: 2.5, ease: "expo.out" }, 0.9);
 
-        // SEC 3 Scroll Parallax (Scrubbing)
+        // SEC 3 scroll depth
         gsap.to(".sec3-bg", { scale: 1.1, yPercent: 10, ease: "none", scrollTrigger: { trigger: ".sec3", start: "top bottom", end: "bottom top", scrub: true } });
         gsap.to(".sec3-main-landscape", { yPercent: -5, z: 50, ease: "none", scrollTrigger: { trigger: ".sec3", start: "top bottom", end: "bottom top", scrub: true } });
         gsap.to(".sec3-top-right-image", { yPercent: -15, z: 120, ease: "none", scrollTrigger: { trigger: ".sec3", start: "top bottom", end: "bottom top", scrub: true } });
         gsap.to(".sec3-before-after", { yPercent: -20, z: 150, ease: "none", scrollTrigger: { trigger: ".sec3", start: "top bottom", end: "bottom top", scrub: true } });
         gsap.to(".sec3-cta-card", { yPercent: -10, z: 80, ease: "none", scrollTrigger: { trigger: ".sec3", start: "top bottom", end: "bottom top", scrub: true } });
-        
-        // SEC 3 Floating Loop
+
+        // SEC 3 floating loops
         gsap.to(".sec3-main-landscape", { y: "+=8", duration: 6, repeat: -1, yoyo: true, ease: "sine.inOut" });
         gsap.to(".sec3-top-right-image", { y: "-=12", rotationZ: 0.5, duration: 4, repeat: -1, yoyo: true, ease: "sine.inOut" });
         gsap.to(".sec3-before-after", { y: "-=15", rotationZ: -0.5, duration: 5, repeat: -1, yoyo: true, ease: "sine.inOut" });
         gsap.to(".sec3-cta-card", { y: "-=8", duration: 3.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
 
-        // ==============================================
-        // SEC 4: CINEMATIC ENTRANCE & PARALLAX
-        // ==============================================
-
-        const sec4Tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: ".sec4",
-                start: "top 75%",
-            }
-        });
-
-        sec4Tl.from(".sec4-headline .line", { 
-            y: 80,
-            z: -100,
-            rotationX: -60,
-            opacity: 0,
-            filter: "blur(12px)",
-            stagger: 0.15,
-            duration: 1.5,
-            ease: "power4.out"
-        }, 0)
+        // SEC 4 Entrance
+        const sec4Tl = gsap.timeline({ scrollTrigger: { trigger: ".sec4", start: "top 75%" } });
+        sec4Tl.from(".sec4-headline .line", { y: 80, z: -100, rotationX: -60, opacity: 0, filter: "blur(12px)", stagger: 0.15, duration: 1.5, ease: "power4.out" }, 0)
         .from(".sec4-description", { y: 40, opacity: 0, filter: "blur(8px)", duration: 1.5, ease: "power3.out" }, 0.4)
         .from(".sec4-cta", { y: 60, z: 50, opacity: 0, duration: 1.5, ease: "power3.out" }, 0.6)
         .from(".contact-item", { x: 50, opacity: 0, filter: "blur(6px)", stagger: 0.1, duration: 1.2, ease: "power3.out" }, 0.5)
@@ -997,15 +802,42 @@
         .from(".sec4-glass-card", { y: 100, x: -50, z: 150, opacity: 0, rotationY: 15, duration: 2, ease: "expo.out" }, 0.6)
         .from(".sec4-bottom-row", { y: 30, opacity: 0, duration: 1.5, ease: "power3.out" }, 0.8);
 
-        // SEC 4 Scroll Parallax
+        // SEC 4 scroll depth
         gsap.to(".sec4-bg", { scale: 1.1, yPercent: 10, ease: "none", scrollTrigger: { trigger: ".sec4", start: "top bottom", end: "bottom bottom", scrub: true } });
         gsap.to(".sec4-right-image", { yPercent: -10, z: -50, ease: "none", scrollTrigger: { trigger: ".sec4", start: "top bottom", end: "bottom bottom", scrub: true } });
         gsap.to(".sec4-glass-card", { yPercent: -20, z: 100, ease: "none", scrollTrigger: { trigger: ".sec4", start: "top bottom", end: "bottom bottom", scrub: true } });
 
-        // SEC 4 Floating Loop
+        // SEC 4 floating loops
         gsap.to(".sec4-right-image", { y: "+=10", rotationZ: -0.5, duration: 5, repeat: -1, yoyo: true, ease: "sine.inOut" });
         gsap.to(".sec4-glass-card", { y: "-=15", rotationZ: 1, duration: 4, repeat: -1, yoyo: true, ease: "sine.inOut" });
         gsap.to(".sec4-cta", { y: "-=5", duration: 3, repeat: -1, yoyo: true, ease: "sine.inOut" });
+
+        } else {
+            // MOBILE: Simple fade-in entrance animations only (no 3D, no scroll parallax, no floating)
+            const sec2MobileTl = gsap.timeline({ scrollTrigger: { trigger: ".sec2", start: "top 80%" } });
+            sec2MobileTl.from(".sec2-headline .line", { y: 30, opacity: 0, stagger: 0.1, duration: 1, ease: "power3.out" }, 0)
+            .from(".sec2-description", { y: 20, opacity: 0, duration: 1, ease: "power3.out" }, 0.3)
+            .from(".sec2-metrics-card", { y: 30, opacity: 0, duration: 1, ease: "power3.out" }, 0.5)
+            .from(".sec2-main-image", { y: 40, opacity: 0, duration: 1.2, ease: "power3.out" }, 0.3);
+
+            const sec3MobileTl = gsap.timeline({ scrollTrigger: { trigger: ".sec3", start: "top 80%" } });
+            sec3MobileTl.from(".sec3-headline .line", { y: 30, opacity: 0, stagger: 0.1, duration: 1, ease: "power3.out" }, 0)
+            .from(".sec3-description", { y: 20, opacity: 0, duration: 1, ease: "power3.out" }, 0.3)
+            .from(".sec3-stat-item", { y: 20, opacity: 0, stagger: 0.1, duration: 0.8, ease: "power3.out" }, 0.4)
+            .from(".sec3-main-landscape", { y: 30, opacity: 0, duration: 1, ease: "power3.out" }, 0.5)
+            .from(".sec3-before-after", { y: 30, opacity: 0, duration: 1, ease: "power3.out" }, 0.6)
+            .from(".showcase-card", { y: 30, opacity: 0, stagger: 0.1, duration: 0.8, ease: "power3.out" }, 0.7)
+            .from(".sec3-cta-card", { y: 30, opacity: 0, duration: 1, ease: "power3.out" }, 0.8);
+
+            const sec4MobileTl = gsap.timeline({ scrollTrigger: { trigger: ".sec4", start: "top 80%" } });
+            sec4MobileTl.from(".sec4-headline .line", { y: 30, opacity: 0, stagger: 0.1, duration: 1, ease: "power3.out" }, 0)
+            .from(".sec4-description", { y: 20, opacity: 0, duration: 1, ease: "power3.out" }, 0.3)
+            .from(".sec4-cta", { y: 20, opacity: 0, duration: 1, ease: "power3.out" }, 0.5)
+            .from(".contact-item", { y: 20, opacity: 0, stagger: 0.1, duration: 0.8, ease: "power3.out" }, 0.4)
+            .from(".sec4-right-image", { y: 40, opacity: 0, duration: 1.2, ease: "power3.out" }, 0.3)
+            .from(".sec4-glass-card", { y: 30, opacity: 0, duration: 1, ease: "power3.out" }, 0.5)
+            .from(".sec4-bottom-row", { y: 20, opacity: 0, duration: 1, ease: "power3.out" }, 0.7);
+        }
 
     </script>
 </body>
